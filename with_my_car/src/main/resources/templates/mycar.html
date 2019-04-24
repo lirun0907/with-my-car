@@ -1,0 +1,529 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>会员中心-伴我汽车</title>
+<meta name="description" content="伴我汽车"/>
+<meta name="keywords" content="伴我汽车">
+  <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+  <script type="text/javascript" src="vue/vue-2.2.2-min.js"></script>
+  <script type="text/javascript" src="vue/vue-resources-min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/base.css">
+<link rel="stylesheet" type="text/css" href="css/layout.css">
+<link rel="stylesheet" type="text/css" href="css/hurst.css">
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+
+<!--<link rel="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>-->
+<!--<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>-->
+
+
+<!--[if IE 6]>
+<script type="text/javascript" src="js/DD_belatedPNG.js"></script>
+<script>
+        DD_belatedPNG.fix('*');
+    </script>
+<![endif]-->
+</head>
+<body>
+
+<div id="header">
+	<div class="top">
+		<div class="wrap clearfix">
+			<a href="#" class="logo left"><img src="images/logo2.png" style="width:200px;height:50px"/></a>
+	  <div class="nav left dInline" id="headerMenu">
+		  <a  href="index.html">首页</a>
+		  <a href="activity_list.html">汽车优惠</a>
+		  <a href="salecar_list.html">车型大全</a>
+		  <a href="news.html">汽车情报站</a>
+		  <a href="select.html">伴我选车</a>
+		  <!--<a href="shfw.html">售后服务</a>-->
+		  <a id="MemberMenuChange" class="b-login on" href="userindex" target="_self">会员中心</a>
+      </div>
+			<span class="right" id="rightMenuHtml">
+                <a href="#" id="b-login">登录</a>|<a href="#" id="b-tuichu" onclick="loginOut()">注册</a>|&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/tel.png"/>
+			</span>
+          <script>
+            $.ajax({
+              url: 'getUser',
+              type: 'post',
+              success: function (message) {
+                $("#b-login").html(message.username);
+                $("#username").html(message.username);
+                $("#b-tuichu").html("退出");
+              }
+            })
+            function loginOut() {
+              $.ajax({
+                url: 'loginOut',
+                type: 'post',
+                success: function (message) {
+                  if(message){
+                    $("#b-login").html("登录");
+                    $("#b-tuichu").html("注册");
+                    window.location.href="index.html";
+                  }
+                }
+              })
+            }
+
+          </script>
+		</div>
+	</div>
+	<div class="head-search">
+		<div class="wrap clearfix">
+			<div class="yjxj clearfix left" action="/index/keyword/" method="post" enctype="multipart/form-data">
+        <input type="text" name="keyword" placeholder="请输入您想要的品牌、车系或车辆编号搜索" class="left" />
+        <input type="submit" value="搜 索" class="right" />
+      </div>
+			<div class="hotWords left dInline">
+				热门品牌：<a href="#">奥迪A6L</a><a href="#">宝马5系</a><a href="#">奔驰E级</a><a href="#">奥迪A4L</a><a href="#">奔驰C级</a>     
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="about">
+  <div class="mTags wrap"> <a href="/">伴我汽车广场</a>><a href="/member/index/channel/7.html">会员中心</a>><a href="/Member/car/channel/7/list/12.html">我的座驾</a> </div>
+  <div class="mebBox">
+    <div class="meb-cont clearfix wrap">
+      <div class="meb-nav left dInline">
+        <ul class="clearfix">
+			<li><a href="userindex.html">会员中心</a></li>
+			<li><a href="myaccount.html">个人信息</a></li>
+			<li  class="on"><a href="mycar.html">我的座驾</a></li>
+			<li><a href="myactivity.html">我的活动</a></li>
+			<li ><a href="mypoint.html">我的积分</a></li>
+			<li><a href="recently.html">最近浏览</a></li>
+			<li><a href="myconcerm.html">我的关注</a></li> 			
+        </ul>
+      </div>
+      <div class="meb-right right dInline">
+        <div class="mr-top">
+          <div class="mr-top-div clearfix"> <span class="left"> <img src="images/photo.png"/> </span>
+            <div class="mr-infor left dInline">
+              <h2>中午好，尊敬的会员 <b id="username"></b></h2>
+              <!--<p> 手机：15138911875   邮箱：  |  [ <a href="#">管理账户信息</a> ] </p>-->
+            </div>
+          </div>
+        </div>
+        <div class="mr-detail">
+          <div class="me-box me-box1">
+            <div class="me-dl" style="display:block;margin-left:-10px">
+              <div class="me-one">
+                <div class="cs_bt clearfix" style="padding-top:7px;">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="add()">新增</button>
+                    <!--新增模态框-->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="exampleModalLabel">我的座驾</h4>
+                                </div>
+                                <div class="modal-body" id="tbody">
+                                    <form id="memberCar">
+                                      <input type="hidden" name="id" id="memberCarId"/>
+                                        <div class="form-group">
+                                          <select  id="brand_id" @change="selectCarMakeByCarBrandId" name="brandId">
+                                            <option>请选择品牌名称</option>
+                                            <option  v-for="carBrand in carBrands" :value="carBrand.id" class="form-control">{{carBrand.name}}</option>
+                                          </select>
+                                        </div>
+                                        <div class="form-group">
+                                          <select  id="make_id" @change="selectCarModelByCarMakeId" name="makeId">
+                                            <option>请选择子品牌名称</option>
+                                            <option  v-for="carMake in carMakes" class="form-control" :value="carMake.id">{{carMake.name}}</option>
+                                          </select>
+                                        </div>
+                                        <div class="form-group">
+                                          <select  id="model_id" @change="selectCarByCarMakeId()" name="modelId">
+                                            <option>请选择车系名称</option>
+                                            <option v-for="carModel in carModels" :value="carModel.id" class="form-control" :id="carModel.makeId">{{carModel.name}}</option>
+                                          </select>
+                                        </div>
+                                      <div class="form-group">
+                                        <select  id="car_id" name="carId">
+                                          <option>请选择车款名称</option>
+                                          <option v-for="car in cars" :value="car.id" class="form-control">{{car.name}}</option>
+                                        </select>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="buy_year" class="control-label">购买年份</label>
+                                        <input type="text" id="buy_year" placeholder="格式如:20190419" class="form-control" name="buyYear" onchange="checkBuyYear()"/>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="current_mileage" class="control-label">当前里程</label>
+                                        <input type="text" id="current_mileage" class="form-control" name="currentMileage"/>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="remark" class="control-label">备注</label>
+                                        <input type="text" id="remark" class="form-control" name="remark"/>
+                                      </div>
+                                      <div class="form-group">
+                                        <select  id="type" name="type">
+                                          <option value="type" class="form-control">座驾类型</option>
+                                          <option value="1">5人座</option>
+                                          <option value="2">7人座</option>
+                                          <option value="3">9人座</option>
+                                        </select>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" @click="save" data-dismiss="modal">保存</button>
+                                      </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--已有座驾开始-->
+                <div class="accForm" id="ownCar">
+                  <div class="tpl-table-images-content" style="margin-left:-116px">
+                    <div  style="float: left" v-for="memberCarDto in memberCars">
+                           <img :src="memberCarDto.image" name="goodsphoto"  width="120px" height="120px" >
+                           <ul>
+                             <li>
+                               <span class="am-icon-qq am-text-warning">大品牌:{{memberCarDto.brandName}}</span><br/>
+                               <span class="am-icon-github font-green"> 子品牌:{{memberCarDto.makeName}}</span><br/>
+                               <span class="am-icon-github font-green"> 车系:{{memberCarDto.modelName}}</span><br/>
+                             </li>
+                           </ul>
+                           <div class="cs_bt clearfix" style="padding-top:7px;">
+                             <a class="balance_1165" data-toggle="modal" data-target="#exampleModal" @click="edit(memberCarDto)">编辑</a>
+                             <a class="balance_1165" @click="deleteMemberCar(memberCarDto.memberCarId)">删除</a>
+                           </div>
+
+                    </div>
+                  </div>
+                </div>
+                <!--已有座驾结束-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--footer部分开始-->
+
+<div id="footer">
+  <div class="foot-a1">
+    <div class="wrap">
+      <ul class="clearfix">
+        <li> <img src="images/db1.png"/>
+          <p>365项检测认证</p>
+        </li>
+        <li> <img src="images/db2.png"/>
+          <p>5000公里无需保养</p>
+        </li>
+        <li> <img src="images/db3.png"/>
+          <p>1年或两万公里无忧质保</p>
+        </li>
+        <li> <img src="images/db4.png"/>
+          <p>7天无忧退换</p>
+        </li>
+        <li> <img src="images/db5.png"/>
+          <p> 置换有增值</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-a">
+    <div class="wrap clearfix">
+      <div class="fDl left dInline "> <strong>伴我汽车承诺</strong>
+        <ul>
+          <li><a href="#">365项严苛检测</a></li>
+          <li><a href="#">5000公里无需保养</a></li>
+          <li><a href="#">一年或两万公里质保</a></li>
+          <li><a href="#">7天退换</a></li>
+        </ul>
+      </div>
+      <div class="fDl left dInline "> <strong>买卖二手车指南</strong>
+        <ul>
+          <li><a href="#" target="_blank">“禁止长时间停车”到底能</a></li>
+          <li><a href="#" target="_blank">20年前开桑塔纳的大款们，</a></li>
+          <li><a href="#" target="_blank">豪华入门跨界车之争,奔驰G</a></li>
+          <li><a href="#" target="_blank">像初恋一样爱它，该给它怎</a></li>
+          <li><a href="#" target="_blank">常开车不等于会开车 你的</a></li>
+        </ul>
+      </div>
+      <div class="fDl left dInline "> <strong>售后服务</strong>
+        <ul>
+          <li><a href="#">24小时道路救援</a></li>
+          <li><a href="#">豪车凹陷修复</a></li>
+          <li><a href="#">定期上门维修保养服务</a></li>
+          <li><a href="#">预约保养工时优惠</a></li>
+        </ul>
+      </div>
+      <div class="fDl left dInline "> <strong>关于伴我汽车</strong>
+        <ul>
+          <li><a href="#" target="_blank">伴我汽车动态</a></li>
+          <li><a href="#" target="_blank">伴我汽车荣誉</a></li>
+          <li><a href="#" target="_blank">伴我汽车优势</a></li>
+          <li><a href="#" target="_blank">联系伴我汽车</a></li>
+          <li><a href="#" target="_blank">评估团队</a></li>
+        </ul>
+      </div>
+      <div class="fDl left dInline "> <strong>伴我汽车文化</strong>
+        <ul>
+          <li><a href="#">中原文化</a></li>
+          <li><a href="#">立天下</a></li>
+          <li><a href="#">改变、规范、引领一方市场</a></li>
+          <li><a href="#">颠覆中原人购车理念</a></li>
+        </ul>
+      </div>
+      <div class="fDl left dInline fDl1">
+        <div class="dLx"> <img src="images/dLx.jpg"/> </div>
+        <div style="height:50px;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot-b"> Copyright © 2015 qcauto All Rights Reserved 河南亿金有限公司 版权所有 豫ICP备123456789号<br/>
+    地址：郑州市管城区紫荆山东大街裕鸿花园 服务热线：400-888-6666<br/>
+  </div>
+</div>
+
+<!--footer部分结束-->
+<div id="miniBus" style="right:-270px;">
+  <div class="mini-bar">
+    <div class="mini-barlist">
+      <ul>
+        <li class="miItem">
+          <div class="mini-mi browse"> <i class="mini-ease"></i> <code></code> <span>最近浏览</span> </div>
+        </li>
+        <li class="miItem">
+          <div class="mini-mi collec"> <i class="mini-ease"></i> <code></code> <span>我的收藏</span> </div>
+        </li>
+        <li>
+          <div class="mini-mi service"> <i class="mini-ease" id="BizQQWPA"></i> <code></code> <span>在线客服</span> </div>
+        </li>
+        <li class="callItem">
+          <div class="mini-mi callback"> <i class="mini-ease"></i> <code></code> <span>意见反馈</span> </div>
+        </li>
+        <li class="miItem">
+          <div class="mini-mi shopping"> <i class="mini-ease"></i> <code></code> <span>对比车辆</span> <abbr id="Dbnumber">0</abbr> </div>
+        </li>
+      </ul>
+    </div>
+    <a class="mini-gotop"></a> <a class="wx1"><img src="images/wx_1.png"></a>
+    <div class="wmImg hide"> <img src="images/wx_2.png"> </div>
+  </div>
+  <div class="mini-cont">
+    <div class="mini-contlist">
+      <div class="mini-ni">
+        <div class="mini-h clearfix"> <a class="mini-close mini-ease lf-fl"></a> <span class="lf-fr"><code>最近浏览</code></span> </div>
+        <div class="miList" id="Liulan">
+          <ul>
+          </ul>
+        </div>
+      </div>
+      <div class="mini-ni">
+        <div class="mini-h clearfix"> <a class="mini-close mini-ease lf-fl"></a> <span class="lf-fr"><code>我的收藏</code></span> </div>
+        <div class="miList" id="shoucang">
+          <ul>
+            <li class="clearfix">
+              <h3><a href="/Cars/index/channel/2/id/287.html" target="_blank">奥迪A4L 2013 款 2.0T CVT 35TFSI 技术型</a></h3>
+              <div class="mi_a clearfix"> <strong class="left">￥28.2万元</strong> <a href="javascript:void(0)" onclick="balance('287')" class="right mini-tocar balance_287">加入对比</a>
+                <input type="hidden" class="CarValue_287" value="{img:'/Uploads/PhotoGalley/2015-09-24/5603c5d024bca.JPG-thumb.JPG',id:'287',price:'28.2',status:'加入对比',title:'奥迪A4L 2013 款 2.0T CVT 35TFSI 技术型',url:'/Cars/index/channel/2/id/287.html'}" />
+              </div>
+              <a class="mini-m-close"></a></li>
+          </ul>
+          <a href="/Member/need/channel/7/list/11" class="mini-fav">查看更多收藏</a> </div>
+      </div>
+      <!--<div class="mini-ni">
+				<div class="mini-h clearfix">
+					<a class="mini-close mini-ease lf-fl"></a>
+					<span class="lf-fr"><code>在线客服</code></span>
+				</div>
+			</div>-->
+      <div class="mini-ni" id="shopping">
+        <div class="mini-h clearfix"> <a class="mini-close mini-ease lf-fl"></a> <span class="lf-fr"><code>对比车辆</code></span> <span class="lf-fr" style="margin:auto 10px; font-size:26px; font-weight:bolder" id="deletealldb"><a><code>×</code></a></span> </div>
+        <div class="miList" id="Carduibi">
+          <ul>
+          </ul>
+          <a href="/Cars/contrast/channel/2.html" class="mini-fav">立即对比</a> </div>
+      </div>
+    </div>
+  </div>
+  <div class="lf-view" id="lf-view">
+    <form onsubmit="return Lmessage();" enctype="multipart/form-data" method="post" name="leaveMess" id="leaveMess">
+      <b>您对我们的看法~</b>
+      <div>
+        <textarea placeholder="您的声音对我们很重要哟(必填)~" name="bankAuthSrc"></textarea>
+      </div>
+      <div> <a id="viewSubmit" onclick="$('#leaveMess').submit()"></a>
+        <input type="text" placeholder="请留下您的手机号码(必填)" id="viewAbout" name="mobile" value="15138911875" disabled="disabled" />
+      </div>
+    </form>
+    <a id="viewClose"></a> <i id="viewIcon"></i>
+    <p id="viewSign"></p>
+  </div>
+</div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+      $('.mr-tab a').each(function(index){
+          $(this).click(function(){
+              $(this).addClass('on').siblings().removeClass('on');
+              $('.me-dl').eq(index).show().siblings().hide();
+          })
+      });
+  })
+
+  //    添加编辑模态框
+  $('#exampleModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var recipient = button.data('whatever') // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this)
+      // modal.find('.modal-title').text('New message to ' + recipient)
+      // modal.find('.modal-body input').val(recipient)
+  })
+
+  var created;
+  var flag;
+  function add(){
+      flag="add";
+  }
+  /*添加座驾*/
+  objVue = new Vue({
+    el: "#tbody",
+    data: {
+      carBrands:[],
+      carMakes: [],
+      carModels: [],
+      cars: []
+    },
+    created:function(){
+      created = this;
+      $.ajax({
+        url: "mycar",
+        type: "POST",
+        dataType: "json",
+        async: false,
+      }).then(function (responseValue) {
+        created.carBrands = responseValue;
+      })
+    },
+    methods:{
+      /*子品牌*/
+      selectCarMakeByCarBrandId:function () {
+        var brand_id = $("#brand_id option:selected").val();
+          this.$http.post('selectCarMakeByCarBrandId', {"brandId": brand_id}, {emulateJSON: true}).then(function (value) {
+            this.carMakes=value.body;
+          })
+      },
+      /*车系*/
+      selectCarModelByCarMakeId:function () {
+        var make_id = $("#make_id option:selected").val();
+        this.$http.post('selectCarModelByCarMakeId',{"make_id": make_id}, {emulateJSON: true}).then(function (value) {
+          this.carModels=value.body;
+        })
+      },
+      /*车款*/
+      selectCarByCarMakeId:function ( ) {
+        var make_id = $("#model_id option:selected").attr("id");
+        this.$http.post('selectCarByCarMakeId',{"make_id": make_id}, {emulateJSON: true}).then(function (value) {
+          this.cars=value.body;
+        })
+      },
+      /*添加我的座驾*/
+      addMemberCar:function () {
+        // var memberCar = $("#memberCar");
+        var formData = new FormData(document.getElementById("memberCar"));
+        this.$http.post('addMemberCar',formData).then(function (data) {
+          // console.log(data.body);
+          if(data.body=='0'){
+            alert("添加成功");
+            window.location.href="mycar.html";
+          }else {
+            alert("您的座驾已到达5个,不可以再添加");
+            $("#baocun").hide();
+          }
+        })
+
+      }
+    }
+  })
+// /*查询所有座驾*/
+  ownCar = new Vue({
+      el: "#ownCar",
+      data: {
+        memberCars: [],
+        carDto:[],
+      },
+      created: function () {
+        var thisVue = this;
+        $.ajax({
+          url: "selectAllMemberCarByMemberId",
+          type: "POST",
+          dataType: "json",
+          async: false,
+        }).then(function (responseValue) {
+          // console.log(responseValue);
+          thisVue.memberCars = responseValue;
+        })
+      },
+      methods:{
+          edit:function(memberCarDto){
+            carDto=memberCarDto;
+            $("#memberCarId").val(carDto.memberCarId);
+            flag="edit";
+            $("#buy_year").val(carDto.buyYear);
+            $("#current_mileage").val(carDto.currentMileage);
+            $("#remark").val(carDto.remark);
+          },
+          editMemberCar:function(){
+            // console.log(carDto);
+            var formData = new FormData(document.getElementById("memberCar"));
+            this.$http.post('editMemberCar',formData).then(function (data) {
+              // console.log(data.body);
+              if(data.body=='1'){
+                alert("修改成功");
+                window.location.href="mycar.html";
+              }
+            })
+          },
+          deleteMemberCar:function (memberCarId) {
+              if (confirm("是否确认删除？")) {
+                  this.$http.post('deleteMemberCar', {"memberCarId": memberCarId}, {emulateJSON: true}).then(function (data) {
+                      if (data.body=="1") {
+                          alert("删除成功");
+                          window.location.href="mycar.html";
+                      }
+                  })
+              }
+          }
+      }
+  })
+  function save() {
+    if(flag=="add"){
+      /*添加*/
+      objVue.addMemberCar();
+    }else {
+      /*编辑*/
+      ownCar.editMemberCar();
+    }
+    
+  }
+
+  /*检测购买年份*/
+  function checkBuyYear() {
+    var reg = /^(([1][9][0-9]{2})|([2][0][0-1][0-9]))([0][1-9]|[1][0-2])([0][1-9]|[1-2][0-9]|[3][0-1])$/;
+    var buy_year=$("#buy_year").val();
+    if (!reg.test(buy_year)) {
+      alert("日期格式不正确");
+      return false;
+    }
+  }
+</script>
+</body>
+</html>

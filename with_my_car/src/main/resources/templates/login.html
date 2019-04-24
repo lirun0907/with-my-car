@@ -1,0 +1,499 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>会员中心-伴我汽车</title>
+<meta name="description" content="伴我汽车"/>
+<meta name="keywords" content="伴我汽车">
+<link rel="stylesheet" type="text/css" href="css/base.css">
+<link rel="stylesheet" type="text/css" href="css/layout.css">
+<link rel="stylesheet" type="text/css" href="css/sell.css">
+<link rel="stylesheet" type="text/css" href="css/alert.css">
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+
+
+<!--[if IE 6]>
+<script type="text/javascript" src="js/DD_belatedPNG.js"></script>
+<script>
+        DD_belatedPNG.fix('*');
+    </script>
+<![endif]--> 
+</head>                                        
+<body>
+<!--头部的开始-->
+<div id="header">
+	<div class="top">
+		<div class="wrap clearfix">
+			<div class="nav left dInline" id="headerMenu">
+			<a href="#" class="logo left" style="margin-top:0px;">
+			<img src="images/logo2.png" style="width:200px;height:50px"/></a>
+				  <a class="on" href="index">首页</a>
+				  <a href="activity_list">汽车优惠</a>
+				  <a href="salecar_list">车型大全</a>
+				  <a href="news">汽车情报站</a>
+				  <a href="select">伴我选车</a>
+      <!--<a href="shfw.html">售后服务</a>-->
+      <a id="MemberMenuChange" class="b-login" href="userindex" target="_self">会员中心</a>
+      </div>
+			<span class="right" id="rightMenuHtml">
+				<a href="#" class="b-login" id="b-login">登录</a>|<a href="regist.html" id="b-regist">注册</a>|&nbsp;&nbsp;&nbsp;&nbsp;<img src="images/tel.png"/>			</span>
+		</div>
+	</div>
+	<div class="head-search">
+		<div class="wrap clearfix">
+			<div class="yjxj clearfix left" action="/index/keyword/" method="post" enctype="multipart/form-data">
+        <input type="text" name="keyword" placeholder="请输入您想要的品牌、车系或车辆编号搜索" class="left" />
+        <input type="submit" value="搜 索" class="right" />
+      </div>
+			<div class="hotWords left dInline">
+				热门品牌：<a href="#">奥迪A6L</a><a href="#">宝马5系</a><a href="#">奔驰E级</a><a href="#">奥迪A4L</a><a href="#">奔驰C级</a>     
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--头部的结束-->
+
+<style>
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {color: #000;}
+input:-moz-placeholder, textarea:-moz-placeholder {color:#000;}
+input::-moz-placeholder, textarea::-moz-placeholder {color:#000;}
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {color:#000;}
+.select-item{margin-bottom: 25px;}
+</style>
+<div id="about">
+	<div class="mTags wrap">
+		<a href="#">伴我汽车广场</a>><a href="3.html">我要卖车</a>
+	</div>
+	<div class="sellBox">
+		<div class="sellTop">
+			<div class="wrap">
+				<div class="selDetail">
+					<div class="sel-a left dInline">
+						<ul class="clearfix">
+							<li>
+								<img src="images/sell1_1.png"/>
+								<strong>流程简单</strong>
+							</li>
+							<li>
+								<img src="images/sell1_2.png"/>
+								<strong>快速回款</strong>
+							</li>
+							<li class="last">
+								<img src="images/sell1.png" style="color:#000" />
+								<strong>诚信服务</strong>
+							</li>
+						</ul>
+						
+					</div>
+					<div class="sell-form right dInline" style="height:420px">
+						<form enctype="multipart/form-data" action="" method="post" name="forms" id="forms" onsubmit="return InputCheck();">
+							<h3>登录</h3>
+							<div class="sell-info" style="margin-top:5px;">
+								<div class="select-item clearfix">
+									<input type="text" name="username" id="username" placeholder="请输入用户名" onchange="checkUsername()" class="cPut" style="width:370px" />
+								</div>
+								<div class="select-item clearfix">
+									<input type="password"  id="password" placeholder="请输入密码"  onchange="checkPassword()" class="cPut"  style="width:370px"/>
+								</div>
+								<div class="select-item clearfix">
+									<input type="text" name="code1" placeholder="请输入验证码" class="cPut" id="code1" onchange="checkCode()"
+										   style="width:150px"/>
+									<input type="text" name="code2" id="code2" readonly="readonly"
+										   style="width:90px; margin:0 5px 0 25px" class="cPut"/>
+									<div id="send_Mess" class="left"><a href="#" class="send_Mess right">
+										<button type="button" id="getCode" onclick="refreshCode()">刷新验证码</button>
+									</a></div>
+								</div>
+								<div class="seBtn">
+                                	<input type="hidden" name="mobile" value="" />
+                                    <input id="input-verify" type="hidden" name="verify" value="" />
+									<a class="gj_btn" style="width:159px;margin-left:34px;" onclick="return login()">立即登录</a>
+                                    <a href="regist" id="sendMESS" style="width:159px;margin-left:34px;">马上注册</a>
+									
+								</div>
+							</div>
+						</form>
+						</div>
+<input type="hidden" id="ckmobile" value="1" />
+<link rel="stylesheet" type="text/css" href="css/jquery.fancybox-1.3.4.css">
+
+<script type="text/javascript">
+/*生成随机码*/
+var username;
+var password;
+	function randomCode(randomFlag, min, max){
+		var str = "",
+				range = min,
+				arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+		// 随机产生
+		if(randomFlag){
+			range = Math.round(Math.random() * (max-min)) + min;
+		}
+		for(var i=0; i<range; i++){
+			pos = Math.round(Math.random() * (arr.length-1));
+			str += arr[pos];
+		}
+		return str;
+	}
+	function refreshCode(){
+		var random = randomCode(true, 3, 5);
+		$("#code2").val(random);
+	}
+	refreshCode();
+	function checkCode() {
+		var code1 = $("#code1").val();
+		var code2 = $("#code2").val();
+		if(code1!=code2){
+			alert("验证码不正确");
+			return false;
+		}
+	}
+	function checkUsername() {
+		var reg1 = /^.{3,6}$/;
+		username=$("#username").val();
+		if (!reg1.test(username)) {
+			alert("用户名格式不正确,用户名由3-6位任意字符组成");
+			return false;
+		}
+	}
+	function checkPassword() {
+		var reg2 = /^\d{6}$/;
+		password=$("#password").val();
+		if (!reg2.test(password)) {
+			alert("密码格式不正确,密码由6位纯数字组成组成");
+			return false;
+		}
+	}
+/*登录*/
+	function login() {
+		var boolean1 = checkUsername();
+		var boolean2 = checkPassword();
+		var boolean3 = checkCode();
+		if(boolean1!=false&&boolean2!=false&&boolean3!=false){
+			// alert(username+":"+password);
+			// alert("信息无误");
+			$.ajax({
+				url: 'checkLogin',
+				type: 'post',
+				contentType: "application/json;charset=utf-8",
+				dataType: "json",
+				async: false,
+				data: JSON.stringify({"username": username, "password": password}),
+				success: function (message) {
+					// console.log(message)
+					if (message==0) {
+						alert("账号不存在")
+					} else if (message==1) {
+						alert("密码错误")
+					}else if (message==3) {
+                        window.location.href = "myaccount";
+					}else {
+                        window.location.href = "index";
+                    }
+				}
+			})
+			return true;
+		}else {
+			alert("有误");
+			return false;
+		}
+
+	}
+</script>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="sell-a">
+			<div class="wrap">
+				<h2>二手车须知及流程</h2>
+				<div class="sa-list">
+					<ul class="clearfix">
+						<li>
+							<img src="images/sell2_1.png"/>
+							<h4>准备手续</h4>
+							<p>
+								<!-- <b>车辆手续：</b><br/>
+								包括行驶证、机动车登记证、购置附加税凭证、保险单据等，主要是前面三项。
+								<b>车主手续：</b><br/>
+								个人准备身份证原件；单位准备公章、组织机构代码证原件（正本、副本都可）。 -->
+								机动车登记证、行驶证、保养手册、身份证复印件等车辆资料
+							</p>
+						</li>
+						<li>
+							<img src="images/sell2_2.png"/>
+							<h4>上门评估</h4>
+							<p>
+								可以通过电话、网络提交评估需求，我们专业评估团队会及时联系您约上门评估时间和地点。
+
+							</p>
+						</li>
+						<!-- <li>
+							<img src="images/sell2_3.png"/>
+							<h4>亿金365项检测</h4>
+							<p>
+								可以通过二手车市场、置换、网上自己出售等多种方式选择出售车辆。选择一家知名度高、信誉好的二手车企业，不仅可以简化交易流程，还可避免不必要的经济损失。
+							</p>
+						</li> -->
+						<li>
+							<img src="images/sell2_4.png"/>
+							<h4>确定价格</h4>
+							<p>
+								评估师根据车况反馈评估价格，结合车主售车意愿确定车辆价格。
+							</p>
+						</li>
+						<li class="last">
+							<img src="images/sell2_4.png"/>
+							<h4>手续办理</h4>
+							<p>
+								确定交易的车辆准备好相关手续，由车主本人现场签字办理相关手续。
+ 
+							</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="main-a">
+			<div class="mDiv sell-b">
+				<img src="images/sell3.jpg"/>
+			</div>
+		</div>
+	</div>
+
+<div style="display:none;">
+	<div id="showDiv">
+		<div class="guBox">
+			<h3>您的爱车</h3>
+			<p>欧蓝德(进口) 2014款欧蓝德(进口)2.4L四驱豪华超值版7座 </p>
+			<span>上牌时间：<font> 2014-12</font> </span><span>行驶里程： <font>1万公里</font></span>
+			<h3>评估价：<strong>￥18.14万</strong></h3>
+		</div>
+		<img src="images/jzgu.png" class="s_gu" />
+	</div>
+</div>
+<style type="text/css">
+.sa-list li{width:223px;}
+#showDiv{width:800px;height:270px;background:#fff;position:relative;}
+#showDiv .s_gu{position:absolute;right:20px;bottom:15px;}
+.guBox{padding:20px 30px 0 30px;font-size:20px;}
+.guBox h3{color:#000;font-weight: normal;margin-top:30px;font-size:20px;}
+.guBox h3 strong{font-weight: bold;color:#0756b5}
+.guBox p{color:#427dc6;font-weight: bold;padding:10px 0;}
+.guBox span{font-size:14px;display:inline-block;margin-right:15px;}
+.guBox span font{font-weight: bold;color:#437ec6;font-size:14px;}
+</style>
+</div>
+
+<div id="footer">
+  <div class="foot-a1">
+    <div class="wrap">
+      <ul class="clearfix">
+        <li> <img src="images/db1.png"/>
+          <p>365项检测认证</p>
+        </li>
+        <li> <img src="images/db2.png"/>
+          <p>5000公里无需保养</p>
+        </li>
+        <li> <img src="images/db3.png"/>
+          <p>1年或两万公里无忧质保</p>
+        </li>
+        <li> <img src="images/db4.png"/>
+          <p>7天无忧退换</p>
+        </li>
+        <li> <img src="images/db5.png"/>
+          <p> 置换有增值</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-a">
+    <div class="wrap clearfix">
+      <div class="fDl left dInline "> <strong>伴我汽车承诺</strong>
+        <ul>
+          <li><a href="#">365项严苛检测</a></li>
+          <li><a href="#">5000公里无需保养</a></li>
+          <li><a href="#">一年或两万公里质保</a></li>
+          <li><a href="#">7天退换</a></li>
+        </ul>
+      </div>
+      <div class="fDl left dInline "> <strong>买卖二手车指南</strong>
+        <ul>
+          <li><a href="#" target="_blank">“禁止长时间停车”到底能</a></li>
+          <li><a href="#" target="_blank">20年前开桑塔纳的大款们，</a></li>
+          <li><a href="#" target="_blank">豪华入门跨界车之争,奔驰G</a></li>
+          <li><a href="#" target="_blank">像初恋一样爱它，该给它怎</a></li>
+          <li><a href="#" target="_blank">常开车不等于会开车 你的</a></li>
+        </ul>
+      </div>
+      <div class="fDl left dInline "> <strong>售后服务</strong>
+        <ul>
+          <li><a href="#">24小时道路救援</a></li>
+          <li><a href="#">豪车凹陷修复</a></li>
+          <li><a href="#">定期上门维修保养服务</a></li>
+          <li><a href="#">预约保养工时优惠</a></li>
+        </ul>
+      </div>
+      <div class="fDl left dInline "> <strong>关于伴我汽车</strong>
+        <ul>
+          <li><a href="#" target="_blank">伴我汽车动态</a></li>
+          <li><a href="#" target="_blank">伴我汽车荣誉</a></li>
+          <li><a href="#" target="_blank">伴我汽车优势</a></li>
+          <li><a href="#" target="_blank">联系伴我汽车</a></li>
+          <li><a href="#" target="_blank">评估团队</a></li>
+        </ul>
+      </div>
+      <div class="fDl left dInline "> <strong>伴我汽车文化</strong>
+        <ul>
+          <li><a href="#">中原文化</a></li>
+          <li><a href="#">立天下</a></li>
+          <li><a href="#">改变、规范、引领一方市场</a></li>
+          <li><a href="#">颠覆中原人购车理念</a></li>
+        </ul>
+      </div>
+      <div class="fDl left dInline fDl1">
+        <div class="dLx"> <img src="images/dLx.jpg"/> </div>
+        <div style="height:50px;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot-b"> Copyright © 2015 qcauto All Rights Reserved 河南亿金有限公司 版权所有 豫ICP备123456789号<br/>
+    地址：郑州市管城区紫荆山东大街裕鸿花园 服务热线：400-888-6666<br/>
+     </div>
+</div>
+<div id="miniBus" style="right:-270px;">
+	<div class="mini-bar">
+		<div class="mini-barlist">
+			<ul>
+				<li class="miItem">
+					<div class="mini-mi browse">
+						<i class="mini-ease"></i>
+						<code></code>
+						<span>最近浏览</span>
+					</div>
+				</li>
+				<li class="miItem">
+					<div class="mini-mi collec">
+						<i class="mini-ease"></i>
+						<code></code>
+						<span>我的收藏</span>
+					</div>
+				</li>
+				<li>
+					<div class="mini-mi service">
+						<i class="mini-ease" id="BizQQWPA"></i>
+						<code></code>
+						<span>在线客服</span>
+                       
+					</div>
+				</li>
+				<li class="callItem">
+					<div class="mini-mi callback">
+						<i class="mini-ease"></i>
+						<code></code>
+						<span>意见反馈</span>
+					</div>
+				</li>
+				<li class="miItem">
+					<div class="mini-mi shopping">
+						<i class="mini-ease"></i>
+						<code></code>
+						<span>对比车辆</span>
+						<abbr id="Dbnumber">0</abbr>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<a class="mini-gotop"></a>
+		<a class="wx1"><img src="images/wx_1.png"></a>
+		<div class="wmImg hide">
+			<img src="images/wx_2.png">
+		</div>
+	</div>
+	<div class="mini-cont">
+		<div class="mini-contlist">
+			<div class="mini-ni">
+				<div class="mini-h clearfix">
+					<a class="mini-close mini-ease lf-fl"></a>
+					<span class="lf-fr"><code>最近浏览</code></span>
+				</div>
+				<div class="miList" id="Liulan">
+					<ul>
+											</ul>
+				</div>
+			</div>
+			<div class="mini-ni">
+				<div class="mini-h clearfix">
+					<a class="mini-close mini-ease lf-fl"></a>
+					<span class="lf-fr"><code>我的收藏</code></span>
+				</div>
+				<div class="miList" id="shoucang">
+					<ul>
+											</ul>
+<a  href="javascript:void(0)" class="mini-fav b-login">查看更多收藏</a>
+				</div>
+			</div>
+			<!--<div class="mini-ni">
+				<div class="mini-h clearfix">
+					<a class="mini-close mini-ease lf-fl"></a>
+					<span class="lf-fr"><code>在线客服</code></span>
+				</div>
+			</div>-->
+			<div class="mini-ni" id="shopping">
+				<div class="mini-h clearfix">
+					<a class="mini-close mini-ease lf-fl"></a>
+					<span class="lf-fr"><code>对比车辆</code></span>
+                    <span class="lf-fr" style="margin:auto 10px; font-size:26px; font-weight:bolder" id="deletealldb"><a><code>×</code></a></span>
+				</div>
+                <div class="miList" id="Carduibi">
+					<ul>
+											</ul>
+					<a href="../../../Cars/contrast/channel/2.html" class="mini-fav">立即对比</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="lf-view" id="lf-view">
+    	<form onsubmit="return Lmessage();" enctype="multipart/form-data" method="post" name="leaveMess" id="leaveMess">
+		<b>您对我们的看法~</b>
+		<div>
+			<textarea placeholder="您的声音对我们很重要哟(必填)~" name="bankAuthSrc"></textarea>
+		</div>
+		<div>
+			<a id="viewSubmit" onclick="$('#leaveMess').submit()"></a>
+            <input type="text" placeholder="请留下您的手机号码(必填)" id="viewAbout" name="mobile" />
+            		</div>
+        </form>
+		<a id="viewClose"></a>
+		<i id="viewIcon"></i>
+		<p id="viewSign"></p>
+	</div>
+</div>
+<script type="text/javascript" src="js/lg_reg.js"></script>
+<!--<script type="text/javascript" src="js/borrow.js"></script>-->
+
+
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-datetimepicker.css">
+<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+       format: 'yyyy-mm',
+		language:"zh-CN",        
+		startView: 3,
+		minView: 3,
+		autoclose:true	
+
+    });
+</script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.qf.with_my_car.WithMyCarApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.831 s - in com.qf.with_my_car.WithMyCarApplicationTests
